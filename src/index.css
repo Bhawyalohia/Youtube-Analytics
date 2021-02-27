@@ -36,4 +36,14 @@ code {
 {
  margin-bottom:50px;
 }
+.lineChartPath
+{
+  stroke-width: 3;
+  fill: none;  
+  stroke: brown;    
+}
+.chartDivision
+{
+  padding-left: 200px;
+}
 

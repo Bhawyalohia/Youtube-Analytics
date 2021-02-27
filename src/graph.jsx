@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import Chart from "./chart.jsx";
 function Graph(props)
 {
-    const [data,setdata]=useState({});
+    const [data,setdata]=useState([]);
      var videoList=[];
      var channelData;
 
@@ -13,7 +14,7 @@ function Graph(props)
         {   channelData=result.items[0];
             //console.log(channelData);
             var playlistId=channelData.contentDetails.relatedPlaylists.uploads;
-            fetch("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=20&playlistId="+playlistId+"&key=AIzaSyDm4VG_sYBTegAsEouGmZdKI1YHDpJaUsg")
+            fetch("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="+playlistId+"&key=AIzaSyDm4VG_sYBTegAsEouGmZdKI1YHDpJaUsg")
             .then(response=>response.json())
             .then((result)=>
             {
@@ -26,7 +27,11 @@ function Graph(props)
                       .then((result)=>
                       {
                           videoItem.statistics=result.items[0].statistics;
-                          console.log(videoItem);
+                          console.log(videoItem.statistics);
+                          setdata((prev)=>
+                          {
+                             return [...prev,videoItem];
+                          });
                       })
                       .catch()
                       {}
@@ -38,10 +43,11 @@ function Graph(props)
         .catch()
         {}
     },[]);
-
-
-
+    
+    
+    
     return (<div>
+              <Chart data={data} height="500" width="500"></Chart> 
         </div>);
 }
 export default Graph;
