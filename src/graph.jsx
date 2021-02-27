@@ -46,8 +46,8 @@ function Graph(props)
     
     
     
-    return (<div>
-              <Chart data={data} height="500" width="500"></Chart> 
+    return (<div className="graphDivison">
+              <Chart data={data} height="500" width="700"></Chart> 
         </div>);
 }
 export default Graph;

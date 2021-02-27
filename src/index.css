@@ -40,10 +40,15 @@ code {
 {
   stroke-width: 3;
   fill: none;  
-  stroke: brown;    
+  stroke: rgb(1, 153, 255);    
 }
-.chartDivision
+.lineChartAxis
 {
-  padding-left: 200px;
+  stroke-width:1;
+  fill: none;  
+  stroke: rgb(153, 163, 170);  
 }
-
+.lineChartArea
+{
+  fill:rgb(169, 221, 255)
+}
