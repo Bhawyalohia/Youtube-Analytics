@@ -65,15 +65,18 @@ function Chart(props)
         var svgX=Math.floor(getX(pos));
         var svgY=Math.floor(getY(parseInt(data[pos].statistics.viewCount)));
         return (<g>
-             <circle cx={svgX} cy={svgY} r="5" stroke="black" stroke-width="3" fill="red" />
+             <circle cx={svgX} cy={svgY} r="5" stroke="black" stroke-width="3" fill="red" id="indicationCircle"/>
         </g>);
     }
     function createDataBox(x,y)
     {
         var pos=getNearestElementPos(x);
+        var coordinateInfo=document.querySelector("#innerSVG").getBoundingClientRect();
         var svgX=Math.floor(getX(pos));
         var svgY=Math.floor(getY(parseInt(data[pos].statistics.viewCount)));
-        return (<DataBox svgX={svgX} svgY={svgY} data={data[pos]}></DataBox>);
+        var x=coordinateInfo.left+window.scrollX+svgX;
+        var y=coordinateInfo.top+window.scrollY+svgY;
+        return (<DataBox x={x} y={y} data={data[pos]}></DataBox>);
     }
     function makePath()
     {
@@ -111,7 +114,7 @@ function Chart(props)
     }
    return (<div className="chartDivision">
        <svg width="1000" height="700" >
-       <svg x={paddingLeft} y={paddingTop} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+       <svg x={paddingLeft} y={paddingTop} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} id="innerSVG">
         {makePath()}
         {makeAxis()}
         {makeAreaFilled()}
