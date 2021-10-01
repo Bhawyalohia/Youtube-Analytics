@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import Chart from "./chart.jsx";
+import ChartHeading from "./ChartHeading";
 function Graph(props)
 {
     const [data,setdata]=useState([]);
+    const [channelData,setChannelData]=useState({});
      var videoList=[];
-     var channelData;
-
     useEffect(()=>
     {
-        fetch("https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&id="+props.channelId+"&key=AIzaSyDm4VG_sYBTegAsEouGmZdKI1YHDpJaUsg")
+        fetch("https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&id="+props.channelId+`&key=${process.env.REACT_APP_API_KEY}`)
         .then(response=>response.json())
         .then((result)=>
-        {   channelData=result.items[0];
-            //console.log(channelData);
-            var playlistId=channelData.contentDetails.relatedPlaylists.uploads;
-            fetch("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="+playlistId+"&key=AIzaSyDm4VG_sYBTegAsEouGmZdKI1YHDpJaUsg")
+        {     setChannelData(result.items[0]);
+            //channelData=result.items[0];
+             //console.log("gmgmgmgmgmgmgmgmggmmgmgm");
+            var playlistId=result.items[0].contentDetails.relatedPlaylists.uploads;
+            fetch("https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId="+playlistId+`&key=${process.env.REACT_APP_API_KEY}`)
             .then(response=>response.json())
             .then((result)=>
             {
@@ -22,7 +23,7 @@ function Graph(props)
                   //console.log(videoList);
                   videoList.forEach(videoItem=> {
                       var videoId=videoItem.snippet.resourceId.videoId;
-                      fetch("https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id="+videoId+"&key=AIzaSyDm4VG_sYBTegAsEouGmZdKI1YHDpJaUsg")
+                      fetch("https://youtube.googleapis.com/youtube/v3/videos?part=statistics&id="+videoId+`&key=${process.env.REACT_APP_API_KEY}`)
                       .then(response=>response.json())
                       .then((result)=>
                       {
@@ -47,6 +48,7 @@ function Graph(props)
     
     
     return (<div className="graphDivison">
+              <ChartHeading data={channelData}></ChartHeading>
               <Chart data={data} height="500" width="700"></Chart> 
         </div>);
 }
